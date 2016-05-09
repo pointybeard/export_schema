@@ -1,0 +1,20 @@
+{
+    "name": "pointybeard/export-schema",
+    "version": "1.0.0",
+    "description": "Easily export SQL schema for a section",
+    "homepage": "https://github.com/pointybeard/export_schema",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alistair Kearney",
+            "email": "hi@alistairkearney.com",
+            "homepage": "http://alistairkearney.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.6.6",
+        "pointybeard/symphony-pdo": "~0.1"
+    }
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension id="export_schema" status="released" xmlns="http://getsymphony.com/schemas/extension/1.0">
+	<name>Export Schema</name>
+	<description>Easily export SQL schema for a section</description>
+	<repo type="github">https://github.com/pointybeard/export_schema</repo>
+	<types>
+			<type>Utility</type>
+	</types>
+	<authors>
+			<author>
+					<name github="pointybeard" symphony="team">Alistair Kearney</name>
+					<website>http://alistairkearney.com</website>
+			</author>
+	</authors>
+	<releases>
+		<release version="1.0.0" date="2016-05-09" min="2.6.x">
+			- Initial release
+		</release>
+	</releases>
+</extension>
