@@ -1,5 +1,8 @@
 <?php
 
+require_once __DIR__ . '/vendor/autoload.php';
+use SymphonyPDO;
+
 Class extension_export_schema extends Extension
 {
     public function getSubscribedDelegates()
