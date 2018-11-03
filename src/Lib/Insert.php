@@ -1,14 +1,16 @@
 <?php
 namespace ExportSectionSchema\Lib;
 
-class Insert {
+class Insert
+{
     private $exclude;
     private $numeric;
     private $null;
     private $table;
     private $fields;
     
-    public function __construct($table, $exclude=[], $numeric=[], $null=[]) {
+    public function __construct($table, $exclude=[], $numeric=[], $null=[])
+    {
         $this->table = $table;
         $this->exclude = $exclude;
         $this->numeric = $numeric;
@@ -16,18 +18,21 @@ class Insert {
         $this->fields = (object)[];
     }
     
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         $this->fields->$name = $value;
     }
     
-    public function __get($name) {
+    public function __get($name)
+    {
         return $this->fields->$name;
     }
 
-    public function values() {
+    public function values()
+    {
         $values = [];
         foreach ($this->fields as $key => $value) {
-            if(in_array($key, $this->exclude)) {
+            if (in_array($key, $this->exclude)) {
                 continue;
             }
             // Set NULL fields
@@ -50,10 +55,11 @@ class Insert {
         return implode(', ', $values);
     }
     
-    public function names() {
+    public function names()
+    {
         $names = [];
         foreach ($this->fields as $name => $value) {
-            if(in_array($name, $this->exclude)) {
+            if (in_array($name, $this->exclude)) {
                 continue;
             }
             $names[] = $name;
@@ -61,11 +67,13 @@ class Insert {
         return sprintf("`%s`", implode('`, `', $names));
     }
     
-    public function table() {
+    public function table()
+    {
         return $this->table;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return sprintf(
             "INSERT INTO %s (%s) VALUES (%s);",
             $this->table,

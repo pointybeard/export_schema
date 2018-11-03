@@ -85,7 +85,7 @@ class extension_export_schema extends Extension
     {
         $db = SymphonyPDO\Loader::instance();
         $result = ['sections' => []];
-        foreach($sections as $id) {
+        foreach ($sections as $id) {
             
             // `tbl_sections`
             $query = $db->query("SELECT * FROM tbl_sections WHERE `id` = {$id}");
@@ -96,7 +96,6 @@ class extension_export_schema extends Extension
 
             $section['associations'] = [];
             foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $a) {
-
                 $association = [
                     "hide_association" => $a['hide_association'],
                     "interface" => $a['interface'],
@@ -134,8 +133,8 @@ class extension_export_schema extends Extension
                 unset($row['parent_section']);
                 unset($row['custom']['field_id']);
                 
-                foreach($row['custom'] as $key => $value) {
-                    if(preg_match("@_field_id$@i", $key)) {
+                foreach ($row['custom'] as $key => $value) {
+                    if (preg_match("@_field_id$@i", $key)) {
                         $row['custom']['related'] = [];
                         
                         $f = \FieldManager::fetch($row['custom'][$key]);
@@ -173,12 +172,14 @@ class extension_export_schema extends Extension
         'date', 'relation_id'
     ])
     {
-        
         $insert = new Lib\Insert(
-            $table, $exclude, $numericFields, $nullFields
+            $table,
+            $exclude,
+            $numericFields,
+            $nullFields
         );
         
-        foreach($fields as $name => $value) {
+        foreach ($fields as $name => $value) {
             $insert->$name = $value;
         }
         
@@ -209,7 +210,10 @@ class extension_export_schema extends Extension
         foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $a) {
             $sqlResult .= $this->buildInsert(
                 'tbl_sections_association',
-                $a, [], [], ['interface', 'editor']
+                $a,
+                [],
+                [],
+                ['interface', 'editor']
             ) . PHP_EOL;
         }
 
