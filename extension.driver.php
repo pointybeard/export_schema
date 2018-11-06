@@ -86,7 +86,7 @@ class extension_export_schema extends Extension
         $db = SymphonyPDO\Loader::instance();
         $result = ['sections' => []];
         foreach ($sections as $id) {
-            
+
             // `tbl_sections`
             $query = $db->query("SELECT * FROM tbl_sections WHERE `id` = {$id}");
             $section = $query->fetch(\PDO::FETCH_ASSOC);
@@ -101,12 +101,12 @@ class extension_export_schema extends Extension
                     "interface" => $a['interface'],
                     "editor" => $a['editor'],
                 ];
-                
+
                 $association['parent'] = [
                     'section' => \SectionManager::fetch($a['parent_section_id'])->get('handle'),
                     'field' => \FieldManager::fetch($a['parent_section_field_id'])->get('element_name')
                 ];
-                
+
                 $association['child'] = [
                     'section' => \SectionManager::fetch($a['child_section_id'])->get('handle'),
                     'field' => \FieldManager::fetch($a['child_section_field_id'])->get('element_name')
@@ -118,7 +118,7 @@ class extension_export_schema extends Extension
             $query = $db->query(
                 "SELECT * FROM tbl_fields WHERE `parent_section` = {$id}"
             );
-            
+
             $fields = [];
             while (($row = $query->fetch(\PDO::FETCH_ASSOC)) !== false) {
 
@@ -129,21 +129,21 @@ class extension_export_schema extends Extension
                 ));
 
                 $row['custom'] = $customFieldsTableQuery->fetch(\PDO::FETCH_ASSOC);
-                
+
                 unset($row['parent_section']);
                 unset($row['custom']['field_id']);
-                
+
                 foreach ($row['custom'] as $key => $value) {
                     if (preg_match("@_field_id$@i", $key)) {
                         $row['custom']['related'] = [];
-                        
+
                         $f = \FieldManager::fetch($row['custom'][$key]);
                         $row['custom']['related']['section'] = \SectionManager::fetch(
                             $f->get('parent_section')
                         )->get('handle');
-                        
+
                         unset($row['custom'][$key]);
-                        
+
                         $row['custom']['related']['field'] = $f->get('element_name');
                         unset($row['custom'][$key]);
                     }
@@ -153,13 +153,13 @@ class extension_export_schema extends Extension
                 unset($row['id']);
                 $fields[] = $row;
             }
-            
+
             $section['fields'] = $fields;
 
             unset($section['id']);
             $result['sections'][] = $section;
         }
-        
+
         return json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 
@@ -178,11 +178,11 @@ class extension_export_schema extends Extension
             $numericFields,
             $nullFields
         );
-        
+
         foreach ($fields as $name => $value) {
             $insert->$name = $value;
         }
-        
+
         return (string)$insert;
     }
 
@@ -233,15 +233,24 @@ class extension_export_schema extends Extension
 
             // Get the field specific data
             $customFieldsTableQuery = $db->prepare(sprintf(
-            "SELECT * FROM tbl_fields_%s WHERE `field_id` = :id",
-            $row['type']
-          ));
+                "SELECT * FROM tbl_fields_%s WHERE `field_id` = :id",
+                $row['type']
+            ));
 
             $customFieldsTableQuery->execute(array(':id' => $row['id']));
+            $d = $customFieldsTableQuery->fetch(\PDO::FETCH_ASSOC);
+            $d['id'] = null;
             $sqlResult .= $this->buildInsert(
-              'tbl_fields_' . $row['type'],
-              $customFieldsTableQuery->fetch(\PDO::FETCH_ASSOC)
-          ) . PHP_EOL;
+                'tbl_fields_' . $row['type'],
+                $d,
+                [],
+                [
+                    'id', '.+_id', 'sortorder', 'parent_section'
+                ],
+                [
+                    'id', 'date', 'relation_id'
+                ]
+            ) . PHP_EOL;
 
             // Build the schema for all of the entry_data_* tables
             $table = "tbl_entries_data_".$row['id'];
