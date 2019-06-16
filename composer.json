@@ -1,25 +1,28 @@
 {
     "name": "pointybeard/export-section-schema",
-    "version": "1.0.1",
-    "description": "Easily export SQL schema for a section",
+    "description": "A Symphony CMS extension for exporting sections as either JSON or SQL",
     "homepage": "https://github.com/pointybeard/export_schema",
     "license": "MIT",
     "authors": [
         {
-            "name": "Alistair Kearney",
-            "email": "hi@alistairkearney.com",
-            "homepage": "http://alistairkearney.com",
+            "name": "Alannah Kearney",
+            "email": "hi@alannahkearney.com",
+            "homepage": "http://alannahkearney.com",
             "role": "Developer"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
-        "php": ">=5.6.6",
-        "pointybeard/symphony-pdo": "~0.1"
+        "php": ">=7.2",
+        "pointybeard/symphony-pdo": "~0.1.0",
+        "pointybeard/symphony-section-builder": "^0.2.0"
     },
     "autoload": {
         "psr-4": {
-            "ExportSectionSchema\\": "src/"
-        }
+            "pointybeard\\Symphony\\Extensions\\": "src/"
+        },
+        "files": [
+            "extension.driver.php"
+        ]
     }
 }

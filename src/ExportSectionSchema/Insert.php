@@ -1,5 +1,8 @@
 <?php
-namespace ExportSectionSchema\Lib;
+
+declare(strict_types=1);
+
+namespace pointybeard\Symphony\Extensions\ExportSectionSchema;
 
 class Insert
 {
@@ -8,21 +11,21 @@ class Insert
     private $null;
     private $table;
     private $fields;
-    
-    public function __construct($table, $exclude=[], $numeric=[], $null=[])
+
+    public function __construct($table, $exclude = [], $numeric = [], $null = [])
     {
         $this->table = $table;
         $this->exclude = $exclude;
         $this->numeric = $numeric;
         $this->null = $null;
-        $this->fields = (object)[];
+        $this->fields = (object) [];
     }
-    
+
     public function __set($name, $value)
     {
         $this->fields->$name = $value;
     }
-    
+
     public function __get($name)
     {
         return $this->fields->$name;
@@ -37,7 +40,7 @@ class Insert
             }
             // Set NULL fields
             foreach ($this->null as $pattern) {
-                if (preg_match("@^{$pattern}$@i", $key) && (is_null($value) || strlen(trim($value)) <= 0)) {
+                if (preg_match("@^{$pattern}$@i", $key) && (null === $value || strlen(trim($value)) <= 0)) {
                     $values[] = 'NULL';
                     continue 2;
                 }
@@ -52,9 +55,10 @@ class Insert
 
             $values[] = sprintf("'%s'", \MySQL::cleanValue($value));
         }
+
         return implode(', ', $values);
     }
-    
+
     public function names()
     {
         $names = [];
@@ -64,9 +68,10 @@ class Insert
             }
             $names[] = $name;
         }
-        return sprintf("`%s`", implode('`, `', $names));
+
+        return sprintf('`%s`', implode('`, `', $names));
     }
-    
+
     public function table()
     {
         return $this->table;
@@ -75,7 +80,7 @@ class Insert
     public function __toString()
     {
         return sprintf(
-            "INSERT INTO %s (%s) VALUES (%s);",
+            'INSERT INTO %s (%s) VALUES (%s);',
             $this->table,
             $this->names(),
             $this->values()

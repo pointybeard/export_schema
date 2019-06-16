@@ -1,28 +1,26 @@
-# Export Section Schema Extension for SymphonyCMS
+# Section Export Extension for Symphony CMS
 
-- Version: 1.0.1
-- Date: 3rd Nov 2018
-- [Release notes](https://github.com/pointybeard/export_schema/blob/master/CHANGELOG.md)
-- [GitHub repository](https://github.com/export_schema/export_schema)
+-   Version: 1.1.0
+-   Date: 16 June 2019
+-   [Release notes](https://github.com/pointybeard/export_schema/blob/master/CHANGELOG.md)
+-   [GitHub repository](https://github.com/export_schema/export_schema)
 
-Easily export selected sections as either JSON or SQL.
+A [Symphony CMS](https://www.getsymphony.com/) extension for exporting sections as either JSON or SQL.
 
-**The SQL produced will cause existing tables to be first removed. This should not be used to update exiting sections or fields.**
+## Installation
 
-## INSTALLATION
-
-Information about [installing and updating extensions](http://getsymphony.com/learn/tasks/view/install-an-extension/) can be found in the Symphony documentation at <http://getsymphony.com/learn/>.
+This is an extension for Symphony CMS. Add it to your `/extensions` folder in your Symphony CMS installation, run `composer update` to install required packages and then enable it though the interface.
 
 ### Requirements
 
-This extension requires the **[Symphony PDO library](https://github.com/pointybeard/symphony-pdo)** (`pointybeard/symphony-pdo`) to be installed via Composer. Either require this in your main `composer.json` file, or run `composer install` on the `extension/export_schema` directory.
+This extension requires PHP 7.3 or greater. For use with earlier version of PHP, please use version 1.0.2 of this extension instead (`git clone -b1.0.2 https://github.com/pointybeard/export_schema.git`).
 
-```json
-"require": {
-  "php": ">=5.6.6",
-  "pointybeard/symphony-pdo": "~0.1"
-}
-```
+This extension depends on the following Composer libraries:
+
+-   [SymphonyCMS PDO Connector](https://github.com/pointybeard/symphony-pdo)
+-   [Symphony CMS: Section Builder](https://github.com/pointybeard/symphony-section-builder)
+
+Run `composer update` on the `extension/export_schema` directory to install these.
 
 ## Usage
 
@@ -39,4 +37,4 @@ We encourage you to contribute to this project. Please check out the [Contributi
 
 ## License
 
-"Export Data Extension for SymphonyCMS" is released under the [MIT License](http://www.opensource.org/licenses/MIT).
+"Section Export Extension for Symphony CMS" is released under the [MIT License](http://www.opensource.org/licenses/MIT).
